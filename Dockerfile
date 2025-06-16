@@ -13,8 +13,11 @@ RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh \
     && chmod +x ./dotnet-install.sh \
     && ./dotnet-install.sh --channel 9.0 -i /usr/local/dotnet
 
-# Install Maven and Gradle using SDKMAN!
-RUN bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install maven && sdk install gradle"
+# Flush SDKMAN! archives and install Maven
+RUN bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk flush archives && sdk install maven"
+
+# Install Gradle separately
+RUN bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install gradle"
 
 # Set environment variables to make tools accessible
 ENV JAVA_HOME_8=/root/.sdkman/candidates/java/8.0.412-tem
